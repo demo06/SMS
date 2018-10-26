@@ -1,8 +1,6 @@
 package com.lx.sms.activitys;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -11,7 +9,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,15 +19,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.lx.sms.R;
 import com.lx.sms.adapter.SignAdapter;
 import com.lx.sms.bean.BaseBean;
 import com.lx.sms.bean.Header;
-import com.lx.sms.bean.ResponBean;
 import com.lx.sms.bean.Request;
+import com.lx.sms.bean.ResponBean;
 import com.lx.sms.bean.Response;
 import com.lx.sms.bean.SignBean;
 import com.lx.sms.bean.SignInfo;
@@ -42,7 +37,6 @@ import com.lx.sms.util.LocationUtils;
 import com.lx.sms.util.PermissionUtils;
 import com.lx.sms.util.StringUtils;
 import com.lx.sms.util.ToastUtil;
-import com.lx.sms.view.RecycleViewDivider;
 
 import java.io.File;
 import java.util.List;

@@ -67,7 +67,7 @@
             android:label="@string/activity_audit" />
 
         <receiver
-            android:name=".Receiver.UpdateAppReceiver"
+            android:name=".receiver.UpdateAppReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

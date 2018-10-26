@@ -1,8 +1,6 @@
 package com.lx.sms.activitys;
 
-import android.Manifest;
 import android.app.DownloadManager;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +12,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.lx.sms.R;
-import com.lx.sms.Receiver.UpdateAppReceiver;
+import com.lx.sms.receiver.UpdateAppReceiver;
 import com.lx.sms.adapter.GeneralAdapter;
 import com.lx.sms.bean.BaseBean;
 import com.lx.sms.bean.GeneralBean;
@@ -39,6 +37,9 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+/**
+ * test
+ */
 public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
 
@@ -178,10 +179,6 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                     }
                 });
     }
-
-    /**
-     * 待修改
-     */
 
 
     /**

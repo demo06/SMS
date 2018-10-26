@@ -1,4 +1,4 @@
-package com.lx.sms.Receiver;
+package com.lx.sms.receiver;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -7,14 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.lx.sms.R;
-import com.lx.sms.util.DialogUtil;
 import com.lx.sms.util.DownloadAppUtils;
 
 import java.io.File;
