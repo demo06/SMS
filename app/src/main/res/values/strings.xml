@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SMS</string>
+    <string name="title_activity_login">安全员管理系统</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">用户名/手机号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in">登陆</string>
+    <string name="action_sign_in_short">登陆</string>
+    <string name="main_activity">安全员管理系统</string>
+    <string name="activity_leave">请假</string>
+    <string name="activity_sign">打卡</string>
+    <string name="activity_audit">审批</string>
+    <string name="activity_my_leave">我的假条</string>
+    <string name="activity_cancel_leave">销假</string>
+
+    <string name="net_error">重新加载</string>
+    <string name="nodata">暂无数据</string>
+    <string name="loadmore_end">加载完毕</string>
+    <string name="loadmore_fail">加载失败,点击重试</string>
+    <string name="cancel">取消</string>
+    <string name="sure">确认</string>
+    <string name="string_install_unknow_apk_note">请打开安装未知应用权限,以正常安装更新包</string>
+</resources>
