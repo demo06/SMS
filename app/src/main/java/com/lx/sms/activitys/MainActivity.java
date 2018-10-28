@@ -38,7 +38,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * test
+ * 首页
  */
 public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnItemClickListener {
 
