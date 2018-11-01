@@ -78,7 +78,7 @@ public class LocationUtils {
         // 查找到服务信息
         Criteria criteria = new Criteria();
         //低精度，如果设置为高精度，依然获取不了location。
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         //不要求海拔
         criteria.setAltitudeRequired(false);
         //不要求方位
@@ -89,6 +89,7 @@ public class LocationUtils {
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         // 获取GPS信息
         String locationProvider = locationManager.getBestProvider(criteria, true);
+//        String locationProvider = LocationManager.GPS_PROVIDER;
         //从可用的位置提供器中，匹配以上标准的最佳提供器
         Location location = null;
         try {
@@ -122,6 +123,7 @@ public class LocationUtils {
         if (location != null) {
             String locationStr = "纬度：" + location.getLatitude() + "\n" + "经度：" + location.getLongitude();
             Log.e(TAG, locationStr);
+            ToastUtil.showShort(locationStr);
 //            Log.e(TAG, getAddressName(location));
         } else {
             Log.e(TAG, "location = null");

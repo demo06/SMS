@@ -218,11 +218,11 @@ public class DialogUtil {
      * @param content
      * @param listener
      */
-    public static void showSignDialog(Context context, String title, String content, final OnShowDialogConfirmListener listener, final DialogInterface.OnKeyListener keyListener) {
+    public static void showSignDialog(Context context, String title, String btnText, String content, final OnShowDialogConfirmListener listener, final DialogInterface.OnKeyListener keyListener) {
         MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
         builder.title(title);
         builder.content(content);
-        builder.positiveText("去设置");
+        builder.positiveText(btnText);
         builder.keyListener(keyListener);
         builder.onPositive((dialog, which) -> {
                     listener.doSomething();

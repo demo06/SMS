@@ -110,6 +110,7 @@ public class SignActivity extends BaseActivity {
             DialogUtil.showSignDialog(
                     this,
                     "GPS定位未开启",
+                    "去开启",
                     "签到需要打开GPS获取位置信息，请打开位置信息开关",
                     () -> LocationUtils.getInstance().openGPS(SignActivity.this),
                     (dialog, keyCode, event) -> {
@@ -160,6 +161,7 @@ public class SignActivity extends BaseActivity {
                     DialogUtil.showSignDialog(
                             this,
                             "定位权限未开启",
+                            "去开启",
                             "签到需要打开定位权限获取位置信息，请打开定位权限",
                             this::readyGoForSetting,
                             (dialog, keyCode, event) -> {
@@ -199,6 +201,7 @@ public class SignActivity extends BaseActivity {
         if (location != null) {
             lat = String.valueOf(location.getLatitude());
             lng = String.valueOf(location.getLongitude());
+            ToastUtil.showLong("lat:" + lat + "\nlng:" + lng);
         } else {
             ToastUtil.showShort("定位失败");
         }
@@ -232,6 +235,19 @@ public class SignActivity extends BaseActivity {
                     public void onNext(ResponBean<Response<List<SignBean>>> bean) {
                         if ("0000".equals(bean.header.rspCode)) {
                             list = bean.response.jsonList;
+                            for (int i = 0; i < list.size(); i++) {
+                                if (!TextUtils.isEmpty(list.get(i).signFlag)) {
+                                    if (list.get(i).signFlag.equals("0")) {
+                                        iconMorning.setBackground(getResources().getDrawable(R.mipmap.sign_checked, null));
+                                    } else if (list.get(i).signFlag.equals("1")) {
+                                        iconNoon.setBackground(getResources().getDrawable(R.mipmap.sign_checked, null));
+                                    } else if (list.get(i).signFlag.equals("2")) {
+                                        iconAfternoon.setBackground(getResources().getDrawable(R.mipmap.sign_checked, null));
+                                    } else if (list.get(i).signFlag.equals("3")) {
+                                        iconEvening.setBackground(getResources().getDrawable(R.mipmap.sign_checked, null));
+                                    }
+                                }
+                            }
                             adapter.setNewData(list);
                         } else
 
@@ -307,11 +323,12 @@ public class SignActivity extends BaseActivity {
             }
 
             Header mheader = new Header(MyApplication.imei);
-            SignInfo signInfo = new SignInfo(String.valueOf(lat), String.valueOf(lng), imgUrl, curTime);
+            SignInfo signInfo = new SignInfo(String.valueOf(lat), String.valueOf(lng), imgUrl, "1x");
             Request<SignInfo> request = new Request<>(signInfo);
             BaseBean baseBean = new BaseBean();
             baseBean.setHeader(mheader);
             baseBean.setRequest(request);
+            showWaitDialog("获取中...").setCancelable(false);
             subscription = Network.getUserAPI().sign(baseBean.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -330,7 +347,7 @@ public class SignActivity extends BaseActivity {
                         @Override
                         public void onNext(BaseBean bean) {
                             if (("0000").equals(bean.header.rspCode)) {
-                                ToastUtil.showShort("打卡成功");
+                                ToastUtil.showLong("打卡成功");
                                 getSingInfo();
                             } else {
                                 if (!TextUtils.isEmpty(bean.header.rspDesc)) {
@@ -360,42 +377,6 @@ public class SignActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            // TODO: 2018-09-07 暂时使用缩略图显示,后台接口写好以后,对接时先上传到后台,在从后台拉取一次数据显示
-            //发现图片在ImageView上无法显示，原因是图片过大导致的，所以要对于图片进行处理。
-            //二次采样   对于图片的宽度和高度进行处理，对于图片的质量进行处理
-
-            //1.获取用于设置图片属性的参数
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            //2.对于属性进行设置，需要解锁边缘
-            options.inJustDecodeBounds = true;
-            //3.对于图片进行编码处理
-            BitmapFactory.decodeFile(path, options);
-            //4.获取原来图片的宽度和高度
-            int outHeight = options.outHeight;
-            int outWidth = options.outWidth;
-            //5.200,200  获得要压缩的比例
-            //2
-            int sampleHeight = outHeight / 400;
-            //1.5
-            int sampleWidth = outWidth / 400;
-            //6.获取较大的比例
-            int size = Math.max(sampleHeight, sampleWidth);
-            //7.设置图片压缩的比例
-            options.inSampleSize = size;
-            /**图片的质量   1个字节是8位
-             * ARGB_8888  32位     4字节   100*100*4 = 40000 个字节
-             * ARGB_4444  16位     2字节   100*100*2 = 20000 个字节
-             * RGB_565    16位      2字节  100*100*2 = 20000 个字节
-             * Alpha_8    8位       1字节  100*100*1 = 10000 个字节
-             *
-             * 100px*100px  的图片
-             * */
-            //设置图片的质量类型
-            options.inPreferredConfig = Bitmap.Config.RGB_565;
-            //8.锁定边缘
-            options.inJustDecodeBounds = false;
-            Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-//            ivIv.setImageBitmap(bitmap);
             upload();
         } else if (requestCode == LocationUtils.GPS_LOCATION_REQUEST_CODE) {
             if (LocationUtils.getInstance().isOpenGPS()) {
@@ -404,6 +385,7 @@ public class SignActivity extends BaseActivity {
                 DialogUtil.showSignDialog(
                         this,
                         "GPS定位未开启",
+                        "去开启",
                         "签到需要打开GPS获取位置信息，请打开位置信息开关",
                         () -> LocationUtils.getInstance().openGPS(SignActivity.this),
                         (dialog, keyCode, event) -> {
@@ -440,6 +422,46 @@ public class SignActivity extends BaseActivity {
         builder.detectFileUriExposure();
     }
 
+    /**
+     * 图片压缩算法
+     */
+    public void compression() {
+        //发现图片在ImageView上无法显示，原因是图片过大导致的，所以要对于图片进行处理。
+        //二次采样   对于图片的宽度和高度进行处理，对于图片的质量进行处理
+
+        //1.获取用于设置图片属性的参数
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        //2.对于属性进行设置，需要解锁边缘
+        options.inJustDecodeBounds = true;
+        //3.对于图片进行编码处理
+        BitmapFactory.decodeFile(path, options);
+        //4.获取原来图片的宽度和高度
+        int outHeight = options.outHeight;
+        int outWidth = options.outWidth;
+        //5.200,200  获得要压缩的比例
+        //2
+        int sampleHeight = outHeight / 400;
+        //1.5
+        int sampleWidth = outWidth / 400;
+        //6.获取较大的比例
+        int size = Math.max(sampleHeight, sampleWidth);
+        //7.设置图片压缩的比例
+        options.inSampleSize = size;
+        /**图片的质量   1个字节是8位
+         * ARGB_8888  32位     4字节   100*100*4 = 40000 个字节
+         * ARGB_4444  16位     2字节   100*100*2 = 20000 个字节
+         * RGB_565    16位      2字节  100*100*2 = 20000 个字节
+         * Alpha_8    8位       1字节  100*100*1 = 10000 个字节
+         *
+         * 100px*100px  的图片
+         * */
+        //设置图片的质量类型
+        options.inPreferredConfig = Bitmap.Config.RGB_565;
+        //8.锁定边缘
+        options.inJustDecodeBounds = false;
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
+//            ivIv.setImageBitmap(bitmap);
+    }
 
     @Override
     protected void onDestroy() {

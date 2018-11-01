@@ -1,6 +1,7 @@
 package com.lx.sms.activitys;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -221,6 +222,18 @@ public abstract class BaseActivity extends AppCompatActivity {
             intent.setFlags(flag);
         }
         startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 跳转回安监通
+     */
+    protected void back4App() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        //前提：知道要跳转应用的包名、类名
+        ComponentName componentName = new ComponentName("com.srit", "com.srit.login.LogoActivity");
+        intent.setComponent(componentName);
+        startActivity(intent);
+        finish();
     }
 
 

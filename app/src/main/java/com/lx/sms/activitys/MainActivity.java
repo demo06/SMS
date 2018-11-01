@@ -1,6 +1,7 @@
 package com.lx.sms.activitys;
 
 import android.app.DownloadManager;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -70,6 +71,22 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
     @Override
     protected void initData() {
         if (PermissionUtils.checkReadPhoneAndWritePermission(this)) {
+//            DialogUtil.showEditDialog(this, "editdialog", "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
+//                @Override
+//                public void onEditDialogConfirm(String content) {
+//                    imei = content;
+//                    if(!imei.equals("/")){
+//                        login();
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onTextIsEmpty() {
+//                    ToastUtil.showShort("不能输入为空");
+//                    return;
+//                }
+//            });
             login();
         } else {
             PermissionUtils.checkReadPhoneAndWritePermission(this);
@@ -110,12 +127,29 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                         grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //已获取权限
-                    login();
+                    DialogUtil.showEditDialog(this, "editdialog", "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
+                        @Override
+                        public void onEditDialogConfirm(String content) {
+                            imei = content;
+                            if (!imei.equals("")) {
+                                login();
+                            }
+
+                        }
+
+                        @Override
+                        public void onTextIsEmpty() {
+                            ToastUtil.showShort("不能输入为空");
+                            return;
+                        }
+                    });
+
                 } else {
                     //权限被拒绝
                     DialogUtil.showSignDialog(
                             this,
                             "权限未开启",
+                            "去设置",
                             "请打开电话权限和存储权限以使程序正常运行",
                             this::readyGoForSetting,
                             (dialog, keyCode, event) -> {
@@ -138,10 +172,13 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
      * 登陆
      */
     public void login() {
+//        科长
+//        imei = "866783036790487";
         imei = TDevice.getIMEI();
         Header mheader = new Header(imei);
         BaseBean baseBean = new BaseBean();
         baseBean.setHeader(mheader);
+        showWaitDialog("获取中...").setCancelable(false);
         subscription = Network.getUserAPI().login(baseBean.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -173,7 +210,18 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
                         } else {
                             if (!TextUtils.isEmpty(bean.header.rspDesc)) {
-                                ToastUtil.showShort(bean.header.rspDesc);
+                                DialogUtil.showSignDialog(MainActivity.this,
+                                        "登陆错误",
+                                        "确定",
+                                        bean.header.rspDesc,
+                                        () -> back4App()
+                                        , (dialog, keyCode, event) -> {
+                                            if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        });
                             }
                         }
                     }
@@ -190,6 +238,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         BaseBean baseBean = new BaseBean();
         baseBean.setHeader(mheader);
         baseBean.setRequest(request);
+        showWaitDialog("获取中...").setCancelable(false);
         subscription = Network.getUserAPI().update(baseBean.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

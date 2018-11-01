@@ -1,6 +1,5 @@
 package com.lx.sms.adapter;
 
-import android.graphics.Color;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

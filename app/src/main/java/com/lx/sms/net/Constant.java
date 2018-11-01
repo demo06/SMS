@@ -2,12 +2,14 @@ package com.lx.sms.net;
 
 public interface Constant {
 
-    //服务器地址
-    String BASE_URL = "http://192.168.0.158:8080/etc/";
-
-//        String BASE_URL = "http://192.168.0.180:8999/etc/";
-    //图片服务器地址
-    String IMG_URL = "http://192.168.0.158:8080/upload";
+    //本地服务器地址
+//    String BASE_URL = "http://192.168.0.158:8080/etc/";
+    //内网服务器地址
+    String BASE_URL = "http://172.25.13.173:8099/etc/";
+    //本地图片服务器地址
+//    String IMG_URL = "http://192.168.0.158:8080/upload";
+    //内网图片服务器地址
+    String IMG_URL = "http://172.25.13.173:8099/upload";
     //登陆
     String USER_LOGIN = "app-login!loginApp.do";
     //签到

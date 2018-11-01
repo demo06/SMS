@@ -10,7 +10,7 @@ android {
         versionName "1.0.0"
         ndk {
             //设置支持的SO库架构,'armeabi' 'armeabi-v7a'"x86"
-            abiFilters "armeabi-v7a"/*,"x86"*/
+            abiFilters "armeabi-v7a","x86"
         }
         // 设置支持multidex
         multiDexEnabled true
