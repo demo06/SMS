@@ -179,7 +179,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 //        科长
 //        imei = "866783036790487";
         imei = TDevice.getIMEI();
-        Header mheader = new Header("132123132132132");
+        Header mheader = new Header(imei);
         BaseBean baseBean = new BaseBean();
         baseBean.setHeader(mheader);
         showWaitDialog("获取中...").setCancelable(false);
