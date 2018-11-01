@@ -127,7 +127,10 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                         grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //已获取权限
-                    DialogUtil.showEditDialog(this, "editdialog", "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
+                    DialogUtil.showEditDialog(
+                            this,
+                            "editdialog",
+                            "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
                         @Override
                         public void onEditDialogConfirm(String content) {
                             imei = content;
@@ -151,6 +154,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                             "权限未开启",
                             "去设置",
                             "请打开电话权限和存储权限以使程序正常运行",
+                            false,
                             this::readyGoForSetting,
                             (dialog, keyCode, event) -> {
                                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -175,7 +179,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 //        科长
 //        imei = "866783036790487";
         imei = TDevice.getIMEI();
-        Header mheader = new Header(imei);
+        Header mheader = new Header("132123132132132");
         BaseBean baseBean = new BaseBean();
         baseBean.setHeader(mheader);
         showWaitDialog("获取中...").setCancelable(false);
@@ -214,6 +218,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                                         "登陆错误",
                                         "确定",
                                         bean.header.rspDesc,
+                                        false,
                                         () -> back4App()
                                         , (dialog, keyCode, event) -> {
                                             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {

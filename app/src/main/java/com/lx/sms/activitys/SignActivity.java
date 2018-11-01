@@ -112,6 +112,7 @@ public class SignActivity extends BaseActivity {
                     "GPS定位未开启",
                     "去开启",
                     "签到需要打开GPS获取位置信息，请打开位置信息开关",
+                    false,
                     () -> LocationUtils.getInstance().openGPS(SignActivity.this),
                     (dialog, keyCode, event) -> {
                         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -163,6 +164,7 @@ public class SignActivity extends BaseActivity {
                             "定位权限未开启",
                             "去开启",
                             "签到需要打开定位权限获取位置信息，请打开定位权限",
+                            false,
                             this::readyGoForSetting,
                             (dialog, keyCode, event) -> {
                                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -249,9 +251,7 @@ public class SignActivity extends BaseActivity {
                                 }
                             }
                             adapter.setNewData(list);
-                        } else
-
-                        {
+                        } else {
                             if (!TextUtils.isEmpty(bean.header.rspDesc)) {
                                 ToastUtil.showShort(bean.header.rspDesc);
                             }
@@ -387,6 +387,7 @@ public class SignActivity extends BaseActivity {
                         "GPS定位未开启",
                         "去开启",
                         "签到需要打开GPS获取位置信息，请打开位置信息开关",
+                        false,
                         () -> LocationUtils.getInstance().openGPS(SignActivity.this),
                         (dialog, keyCode, event) -> {
                             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
