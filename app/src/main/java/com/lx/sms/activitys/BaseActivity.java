@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.lx.sms.R;
 import com.lx.sms.global.MyApplication;
 import com.lx.sms.util.DialogUtil;
+import com.lx.sms.util.LocationUtils;
 import com.lx.sms.util.SystemBarTintManager;
 
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ import rx.Subscription;
  */
 
 public abstract class BaseActivity extends AppCompatActivity {
+
     protected Subscription subscription;
     private boolean _isVisible;
     private ProgressDialog waitDialog;
@@ -241,8 +243,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void readyGoForSetting() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent, LocationUtils.GPS_LOCATION_REQUEST_CODE);
     }
 
 

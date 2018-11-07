@@ -394,7 +394,7 @@ public class SignActivity extends BaseActivity {
             upload();
         } else if (requestCode == LocationUtils.GPS_LOCATION_REQUEST_CODE) {
             if (LocationUtils.getInstance().isOpenGPS()) {
-                PermissionUtils.checkCameraAndGpsPermission(this, false);
+                getGpsLocation();
             } else {
                 DialogUtil.showSignDialog(
                         this,

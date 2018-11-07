@@ -2,6 +2,7 @@ package com.lx.sms.activitys;
 
 import android.app.DownloadManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +27,7 @@ import com.lx.sms.net.Constant;
 import com.lx.sms.net.clientAndApi.Network;
 import com.lx.sms.util.DialogUtil;
 import com.lx.sms.util.ErrorHandler;
+import com.lx.sms.util.LocationUtils;
 import com.lx.sms.util.PermissionUtils;
 import com.lx.sms.util.TDevice;
 import com.lx.sms.util.ToastUtil;
@@ -135,6 +137,13 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LocationUtils.GPS_LOCATION_REQUEST_CODE) {
+            initData();
+        }
+    }
 
     /**
      * 登陆
@@ -246,6 +255,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                     }
                 });
     }
+
 
     private void addBroadCase() {
         if (!isRegisterReceiver) {
