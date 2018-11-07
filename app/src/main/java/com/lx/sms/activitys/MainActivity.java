@@ -70,26 +70,10 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
 
     @Override
     protected void initData() {
-        if (PermissionUtils.checkReadPhoneAndWritePermission(this)) {
-//            DialogUtil.showEditDialog(this, "editdialog", "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
-//                @Override
-//                public void onEditDialogConfirm(String content) {
-//                    imei = content;
-//                    if(!imei.equals("/")){
-//                        login();
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onTextIsEmpty() {
-//                    ToastUtil.showShort("不能输入为空");
-//                    return;
-//                }
-//            });
+        if (PermissionUtils.checkReadPhoneAndWritePermission(this, true)) {
             login();
         } else {
-            PermissionUtils.checkReadPhoneAndWritePermission(this);
+            PermissionUtils.checkReadPhoneAndWritePermission(this, false);
         }
     }
 
@@ -126,27 +110,7 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                         grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    //已获取权限
-                    DialogUtil.showEditDialog(
-                            this,
-                            "editdialog",
-                            "输入IMEI", new DialogUtil.OnEditDialogConfirmListener() {
-                        @Override
-                        public void onEditDialogConfirm(String content) {
-                            imei = content;
-                            if (!imei.equals("")) {
-                                login();
-                            }
-
-                        }
-
-                        @Override
-                        public void onTextIsEmpty() {
-                            ToastUtil.showShort("不能输入为空");
-                            return;
-                        }
-                    });
-
+                    login();
                 } else {
                     //权限被拒绝
                     DialogUtil.showSignDialog(
@@ -257,7 +221,6 @@ public class MainActivity extends BaseActivity implements BaseQuickAdapter.OnIte
                     public void onError(Throwable e) {
                         hideWaitDialog();
                         ErrorHandler.getHttpException(MainActivity.this, e, true);
-                        Log.i("MainActivity", "更新异常=========================>\n" + e);
                     }
 
                     @Override

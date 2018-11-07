@@ -53,7 +53,7 @@ public class HttpClientAndFactory {
             okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
 //                    .addInterceptor(interceptor)
-                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(15, TimeUnit.SECONDS)
                     .build();
         }
 

@@ -97,26 +97,30 @@ public class PermissionUtils {
      * 检查写入文件,定位权限
      *
      * @param context
+     * @param isCheck  true为只检查权限,false为检查带申请权限
      * @return
      */
-    public static boolean checkCameraAndGpsPermission(Context context) {
+    public static boolean checkCameraAndGpsPermission(Context context, boolean isCheck) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             //  WRITE_EXTERNAL_STORAGE,ACCESS_FINE_LOCATION权限
-            ActivityCompat.requestPermissions((Activity) context, new String[]{
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    },
-                    MY_PERMISSIONS_REQUEST_CODE);
+            if (!isCheck) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                        },
+                        MY_PERMISSIONS_REQUEST_CODE);
+            }
         } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //WRITE_EXTERNAL_STORAGE,ACCESS_FINE_LOCATION权限
-            ActivityCompat.requestPermissions((Activity) context, new String[]{
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                    },
-                    MY_PERMISSIONS_REQUEST_CODE);
-
+            if (!isCheck) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                        },
+                        MY_PERMISSIONS_REQUEST_CODE);
+            }
         } else {
             return true;
         }
@@ -262,25 +266,31 @@ public class PermissionUtils {
 
 
     /**
-     * 检查获取电话权限
+     * 检查获取电话,读写存储卡权限
      *
      * @param context
+     * @param isCheck 为true则申请权限,否则不申请只检查
      * @return
      */
-    public static boolean checkReadPhoneAndWritePermission(Context context) {
+    public static boolean checkReadPhoneAndWritePermission(Context context, boolean isCheck) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             //READ_PHONE_STATE  WRITE_EXTERNAL_STORAGE权限
-            ActivityCompat.requestPermissions((Activity) context, new String[]{
-                            Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    },
-                    MY_PERMISSIONS_REQUEST_CODE);
+            if (!isCheck) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        },
+                        MY_PERMISSIONS_REQUEST_CODE);
+            }
         } else if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //READ_PHONE_STATE  WRITE_EXTERNAL_STORAGE 权限
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_PHONE_STATE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_CODE);
+            if (!isCheck) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_PHONE_STATE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_CODE);
+
+            }
         } else {
             return true;
         }

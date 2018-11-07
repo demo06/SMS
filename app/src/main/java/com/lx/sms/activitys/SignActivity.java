@@ -1,6 +1,7 @@
 package com.lx.sms.activitys;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -99,10 +100,10 @@ public class SignActivity extends BaseActivity {
     @Override
     public void init() {
         if (LocationUtils.getInstance().isOpenGPS()) {
-            if (PermissionUtils.checkCameraAndGpsPermission(this)) {
+            if (PermissionUtils.checkCameraAndGpsPermission(this, true)) {
                 getGpsLocation();
             } else {
-                PermissionUtils.checkCameraAndGpsPermission(this);
+                PermissionUtils.checkCameraAndGpsPermission(this, false);
             }
 
 
@@ -190,7 +191,7 @@ public class SignActivity extends BaseActivity {
 
     @OnClick(R.id.btn_sign)
     public void onViewClicked() {
-        if (!TextUtils.isEmpty(lat + "") && !TextUtils.isEmpty(lng + "")) {
+        if (!TextUtils.isEmpty(lat) && !TextUtils.isEmpty(lng) || !lat.equals("0.0") && !lng.equals("0.0")) {
             DialogUtil.showDialog(this, "拍照", "打卡前请拍摄照片", this::takePhoto);
         } else {
             ToastUtil.showShort("请重新定位");
@@ -203,9 +204,21 @@ public class SignActivity extends BaseActivity {
         if (location != null) {
             lat = String.valueOf(location.getLatitude());
             lng = String.valueOf(location.getLongitude());
-            ToastUtil.showLong("lat:" + lat + "\nlng:" + lng);
         } else {
-            ToastUtil.showShort("定位失败");
+            DialogUtil.showSignDialog(
+                    this,
+                    "定位失败",
+                    "确定",
+                    "当前位置GPS信号较弱,请移动到空旷位置重新定位",
+                    false,
+                    this::finish,
+                    (dialog, keyCode, event) -> {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
         }
 
     }
@@ -321,9 +334,10 @@ public class SignActivity extends BaseActivity {
             } else {
                 ToastUtil.showShort("当前不在签到时间内");
             }
-
+//            39.6629042030,116.4259044226 大兴坐标
             Header mheader = new Header(MyApplication.imei);
-            SignInfo signInfo = new SignInfo(String.valueOf(lat), String.valueOf(lng), imgUrl, "1x");
+            SignInfo signInfo = new SignInfo(String.valueOf(lat), String.valueOf(lng), imgUrl, curTime);
+//            SignInfo signInfo = new SignInfo("39.6629042030", "116.4259044226", imgUrl, "1");
             Request<SignInfo> request = new Request<>(signInfo);
             BaseBean baseBean = new BaseBean();
             baseBean.setHeader(mheader);
@@ -380,7 +394,7 @@ public class SignActivity extends BaseActivity {
             upload();
         } else if (requestCode == LocationUtils.GPS_LOCATION_REQUEST_CODE) {
             if (LocationUtils.getInstance().isOpenGPS()) {
-                PermissionUtils.checkCameraAndGpsPermission(this);
+                PermissionUtils.checkCameraAndGpsPermission(this, false);
             } else {
                 DialogUtil.showSignDialog(
                         this,

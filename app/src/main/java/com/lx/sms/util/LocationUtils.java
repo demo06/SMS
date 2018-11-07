@@ -123,7 +123,7 @@ public class LocationUtils {
         if (location != null) {
             String locationStr = "纬度：" + location.getLatitude() + "\n" + "经度：" + location.getLongitude();
             Log.e(TAG, locationStr);
-            ToastUtil.showShort(locationStr);
+            ToastUtil.showShort("定位成功");
 //            Log.e(TAG, getAddressName(location));
         } else {
             Log.e(TAG, "location = null");
