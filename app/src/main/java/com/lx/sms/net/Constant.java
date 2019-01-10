@@ -3,11 +3,12 @@ package com.lx.sms.net;
 public interface Constant {
 
     //本地服务器地址
-//    String BASE_URL = "http://192.168.184.2:8080/etc/";
+//    String BASE_URL = "http://192.168.0.168:8080/etc/";
     //内网服务器地址
     String BASE_URL = "http://172.25.13.173:8099/etc/";
     //内网图片服务器地址
     String IMG_URL = "http://172.25.13.173:8099/upload";
+//    String IMG_URL = "http://192.168.0.168:8080/upload";
     //登陆
     String USER_LOGIN = "app-login!loginApp.do";
     //签到
@@ -26,6 +27,7 @@ public interface Constant {
     String EDIT_LEAVE_INFO = "app-leave!leaveUpdate.do";
     //保存修改请假接口
     String CANCEL_LEAVE_INFO = "app-leave!report.do";
+
     //图片上传
     String UPLOAD_VIDEO = "app-sign!upload.do";
     //版本更新

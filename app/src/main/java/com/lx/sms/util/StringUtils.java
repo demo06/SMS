@@ -205,6 +205,7 @@ public class StringUtils {
         return (hour >= 0) && (hour < 12);
     }
 
+
     /**
      * @return 判断一个时间是不是今天
      */
@@ -491,6 +492,11 @@ public class StringUtils {
         mCalendar.setTimeInMillis(time);
         int mHour = mCalendar.get(Calendar.HOUR_OF_DAY);
         return mHour;
+    }
+
+
+    public static String isAmOrPm() {
+        return getCurrHour() < 12 ? "0" : "3";
     }
 
 

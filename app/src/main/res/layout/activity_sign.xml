@@ -12,144 +12,26 @@
 
         <LinearLayout
             android:id="@+id/ll_top"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_16"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="当前时间"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
-                <LinearLayout
-                    android:id="@+id/morning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/icon_morning"
-                        android:layout_width="64px"
-                        android:layout_height="64px"
-                        android:background="@mipmap/sign_normal" />
-
-                    <View
-                        android:id="@+id/line1"
-                        android:layout_width="170px"
-                        android:layout_height="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/gray_deep" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_morning"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/morning"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="早上"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/noon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/icon_noon"
-                        android:layout_width="64px"
-                        android:layout_height="64px"
-                        android:background="@mipmap/sign_normal" />
-
-                    <View
-                        android:id="@+id/line2"
-                        android:layout_width="170px"
-                        android:layout_height="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/gray_deep" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/noon"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="中午"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/afternoon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/icon_afternoon"
-                        android:layout_width="64px"
-                        android:layout_height="64px"
-                        android:background="@mipmap/sign_normal" />
-
-                    <View
-                        android:id="@+id/line3"
-                        android:layout_width="170px"
-                        android:layout_height="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/gray_deep" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/afternoon"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="下午"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/evening"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/icon_evening"
-                        android:layout_width="64px"
-                        android:layout_height="64px"
-                        android:background="@mipmap/sign_normal" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/evening"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:text="傍晚"
-                    android:textColor="@color/black" />
-
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="48sp" />
         </LinearLayout>
 
 
@@ -157,25 +39,45 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/btn_sign"
+            android:layout_above="@+id/ll_bottom"
             android:layout_below="@+id/ll_top"
             android:layout_marginTop="@dimen/dp_10" />
 
-
-        <Button
-            android:id="@+id/btn_sign"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:background="@mipmap/btn_sign"
-            android:text="打卡\ntime"
-            android:textColor="@color/white"
-            android:textSize="48px" />
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btn_sign_in"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@mipmap/btn_sign"
+                android:text="签到"
+                android:textColor="@color/white"
+                android:textSize="48px" />
 
+            <View
+                android:layout_width="60dp"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:id="@+id/btn_sign_out"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@mipmap/btn_sign"
+                android:text="签退"
+                android:textColor="@color/white"
+                android:textSize="48px" />
+        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>

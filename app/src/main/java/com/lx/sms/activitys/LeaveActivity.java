@@ -1,9 +1,11 @@
 package com.lx.sms.activitys;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,8 +65,8 @@ public class LeaveActivity extends BaseActivity {
     Button btnSave;
     String type, startTime, endTime, reason, flag;
     double countDays;
-    //1事假2病假3丧假4婚假5年假6产假7陪产假
-    String item[] = {"事假", "病假", "丧假", "婚假", "年假", "产假", "陪产假"};
+    //1事假2病假3丧假4婚假5年假6产假7陪产假8倒休9其他
+    String item[] = {"事假", "病假", "丧假", "婚假", "年假", "产假", "陪产假", "倒休", "其他"};
     AuditInfo auditInfo;
 
     @Override
@@ -93,7 +95,7 @@ public class LeaveActivity extends BaseActivity {
     public void setViewDate() {
         if (auditInfo != null) {
             tvType.setText(auditInfo.leaveType);
-            type = Arrays.binarySearch(item, auditInfo.leaveType) + 1+"";
+            type = Arrays.binarySearch(item, auditInfo.leaveType) + 1 + "";
             tvStart.setText(auditInfo.beginDate);
             tvEnd.setText(auditInfo.endDate);
             tvDay.setText(auditInfo.preLeaveHours);
@@ -109,6 +111,16 @@ public class LeaveActivity extends BaseActivity {
                 DialogUtil.showListDialog(this, "请选择请假类型", item, (dialog, itemView, position, text) -> {
                     tvType.setText(text);
                     type = position + 1 + "";
+                    switch (type) {
+                        case "4":
+                            tvDay.setText("10");
+                            break;
+                        case "5":
+                            tvDay.setText("5");
+                            break;
+                        default:
+                            break;
+                    }
                 });
                 break;
             case R.id.rl_starttime:
@@ -232,7 +244,16 @@ public class LeaveActivity extends BaseActivity {
                             finish();
                         } else {
                             if (!TextUtils.isEmpty(bean.header.rspDesc)) {
-                                ToastUtil.showShort(bean.header.rspDesc);
+                                DialogUtil.showSignDialog(
+                                        LeaveActivity.this,
+                                        "提示",
+                                        "确定",
+                                        bean.header.rspDesc,
+                                        true,
+                                        () -> {
+                                        },
+                                        (dialog, keyCode, event) -> false);
+//                                ToastUtil.showShort(bean.header.rspDesc);
                             }
                         }
                     }

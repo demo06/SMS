@@ -41,7 +41,7 @@ android {
             //签名
             signingConfig signingConfigs.release
             //不显示log
-            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "LOG_DEBUG", "false"
         }
 
     }
